@@ -49,7 +49,7 @@
   top: 365px;
   left: 0;
   width: 100%;
-  height: 30%;
+  height: 70%;
 }
 
 #actablackout-text-shadow-box #actablackout-tsb-wall {
