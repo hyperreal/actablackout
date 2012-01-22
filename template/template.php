@@ -12,7 +12,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #444;
+  background: url("http://hyperreal.info/files/acta-thx22.png") no-repeat scroll center top #444444;
   font-family: Helvetica, Arial, sans-serif;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-user-select: none;
@@ -22,7 +22,7 @@
 #actablackout-text-shadow-box #actablackout-tsb-text,
 #actablackout-text-shadow-box #actablackout-tsb-link {
   position: absolute;
-  top: 40%;
+  top: 356px;
   left: 0;
   width: 100%;
   height: 1em;
@@ -46,10 +46,10 @@
 #actablackout-text-shadow-box #actablackout-tsb-box,
 #actablackout-text-shadow-box #actablackout-tsb-wall {
   position: absolute;
-  top: 40%;
+  top: 365px;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 30%;
 }
 
 #actablackout-text-shadow-box #actablackout-tsb-wall {
