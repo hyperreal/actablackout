@@ -2,6 +2,7 @@
 
 /**
  * ACTA Blackout module
+ * Based on https://github.com/mcantelon/drupal-sopa-blackout
  *
  * @author fajka <fajka@hyperreal.info>
  */
@@ -93,34 +94,6 @@ function actablackout_admin() {
   );
 
   return system_settings_form($form);
-}
-
-/**
- * Implements hook_footer().
- */
-function actablackout_create_page() {
-  global $base_url;
-
-  $ret = '<html><head><title>'.variable_get('actablackout_title', '').'</title>';
-  $ret .= '<link rel="stylesheet" type="text/css" href="'.$base_url.'/'.drupal_get_path('module', 'actablackout').'/assets/acta.js">';
-  $ret .= '<script type="text/javascript" src="'.$base_url.'/'.drupal_get_path('module', 'actablackout').'/assets/acta.css"></script>';
-  $ret .= '</head><body>';
-
-  $ret .= '<div id="actablackout-text-shadow-box"><div id="actablackout-tsb-box"></div>';
-  $ret .= '<p id="actablackout-tsb-text">'.variable_get('actablackout_title', '').'</p>';
-  $ret .= '<p id="actablackout-tsb-link"><a href="'.variable_get('actablackout_link', 'http://americancensorship.org/').'">';
-  $ret .= variable_get('actablackout_title', 'No to ACTA!').'</a></p>';
-  $ret .= '<div id="actablackout-tsb-wall"><p>'.variable_get('actablackout_explain', '').'</p></div>';
-  $ret .= '<div id="actablackout-tsb-spot"></div>';
-  $ret .= '</div>';
-
-  $ret .= '<noscript><style type="text/css">';
-  $ret .= '#actablackout-tsb-spot {';
-  $ret .= 'background: -moz-radial-gradient(25% 25%, circle closest-side, transparent 0, black 350px);';
-  $ret .= '-webkit-gradient(radial, 25% 25%, 0, center center, 350, from(rgba(0,0,0,0)), to(rgba(0,0,0,1)))';
-  $ret .= '}</style></noscript></body></html>';
-
-  return $ret;
 }
 
 /**
