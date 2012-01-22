@@ -101,7 +101,7 @@ function actablackout_admin() {
 function actablackout_footer($main = 0) {
   if ($_GET['q'] != 'actatest') {
     $path = drupal_get_normal_path($_GET['q']);
-    if (substr($path, 0, 5) == 'admin' || $path == 'user') {
+    if (substr($path, 0, 5) == 'admin' || $path == 'user'|| $_GET['q'] === variable_get('actablackout_link', array())) {
       return;
     }
 
@@ -133,7 +133,7 @@ function actablackout_footer($main = 0) {
 function actablackout_init() {
   if ($_GET['q'] != 'actatest') {
     $path = drupal_get_normal_path($_GET['q']);
-    if (substr($path, 0, 6) == 'admin' || $path == 'user') {
+    if (substr($path, 0, 6) == 'admin' || $path == 'user' || $_GET['q'] === variable_get('actablackout_link', array())) {
       return;
     }
 
