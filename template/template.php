@@ -22,7 +22,7 @@
 #actablackout-text-shadow-box #actablackout-tsb-text,
 #actablackout-text-shadow-box #actablackout-tsb-link {
   position: absolute;
-  top: 356px;
+  top: 365px;
   left: 0;
   width: 100%;
   height: 1em;
