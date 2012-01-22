@@ -105,7 +105,7 @@ function actablackout_init() {
   if ($_GET['q'] != 'actatest') {
     $path = drupal_get_normal_path($_GET['q']);
     $link = variable_get('actablackout_link', array());
-    if (substr($path, 0, 5) == 'admin' || substr($path, 0, 4) == 'user' || (!is_array($link) && $base_url.'/'.$_GET['q'] == $link)) {
+    if (substr($path, 0, 5) == 'admin' || substr($path, 0, 4) == 'user' || (!is_array($link) && $base_url.'/'.$_GET['q'] == $link) || $_GET['q'] == 'nie-dla-acta') {
       return;
     }
 
