@@ -5,7 +5,6 @@ Features:
 - Own text, title and link on blackout overlay
 - You can adjust date as well (from-to)
 - Testpage /actatest
-- Blackout info is placed on the top of the drupal page, so user see it but robots can normally index page.
 
 Requirements:
 - DateAPI module: http://drupal.org/project/date
