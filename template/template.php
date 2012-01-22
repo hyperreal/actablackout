@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>No to ACTA!</title>
+    <title><?php echo variable_get('actablackout_title', 'No to ACTA!'); ?></title>
     <style type="text/css">
 
 #actablackout-text-shadow-box {
