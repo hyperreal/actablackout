@@ -1,0 +1,168 @@
+<?php
+
+/**
+ * ACTA Blackout module
+ *
+ * @author fajka <fajka@hyperreal.info>
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function actablackout_menu() {
+  $items = array();
+  $items['admin/settings/actablackout'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('actablackout_admin'),
+    'title' => 'ACTA Blackout',
+    'description' => t('ACTA Blackout settings'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['actatest'] = array(
+    'page callback' => 'actablackout_testpage',
+    'title' => 'ACTA Blackout TEST',
+    'type' => MENU_CALLBACK,
+    'access callback' => 'actablackout_testpage_access',
+  );
+
+  return $items;
+}
+
+function actablackout_testpage() {
+  return 'ACTA Blackout test';
+}
+
+function actablackout_testpage_access() {
+  return TRUE;
+}
+
+function actablackout_admin() {
+  $form = array();
+
+
+  $ds = date('Y-m-d H:i');
+  $de = date('Y-m-d H:i', time() + 86400);
+
+  $form['description'] = array(
+    '#value' => t('<p>You can adjust ACTA Blackout settings here.</p>')
+  );
+
+  $form['actablackout_date_start'] = array(
+    '#type' => 'date_select',
+    '#date_format' => 'Y-m-d H:i',
+    '#title' => t('Date from'),
+    '#default_value' => variable_get('actablackout_date_start', $ds),
+    '#description' => t('When blackout starts'),
+    '#required' => TRUE,
+  );
+
+  $form['actablackout_date_end'] = array(
+    '#type' => 'date_select',
+    '#date_format' => 'Y-m-d H:i',
+    '#title' => t('Date to'),
+    '#default_value' => variable_get('actablackout_date_end', $de),
+    '#description' => t('When blackout ends'),
+    '#required' => TRUE,
+  );
+
+  $form['actablackout_link'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title link'),
+    '#description' => t('Where redirect user that click the title'),
+    '#default_value' => variable_get('actablackout_link', 'http://americancensorship.org/'),
+    '#required' => TRUE,
+  );
+
+  $form['actablackout_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#description' => t('Title of the blackout'),
+    '#default_value' => variable_get('actablackout_title', 'No to ACTA!'),
+    '#required' => TRUE,
+  );
+
+  $form['actablackout_explain'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Blackout explanation page code'),
+    '#description' => 'HTML code of explanation that you want to display to the user. <strong>Do not include &lt;head&gt; section!</strong>',
+    '#default_value' => variable_get('actablackout_explain', ''),
+    '#rows' => 30,
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_footer().
+ */
+function actablackout_footer($main = 0) {
+  if ($_GET['q'] != 'actatest') {
+    $path = drupal_get_normal_path($_GET['q']);
+    if (substr($path, 0, 5) == 'admin' || $path == 'user') {
+      return;
+    }
+
+    if (!actablackout_blackout_active()) {
+     return;
+    }
+  }
+
+  $ret = '<div id="actablackout-text-shadow-box"><div id="actablackout-tsb-box"></div>';
+  $ret .= '<p id="actablackout-tsb-text">'.variable_get('actablackout_title', '').'</p>';
+  $ret .= '<p id="actablackout-tsb-link"><a href="'.variable_get('actablackout_link', 'http://americancensorship.org/').'">';
+  $ret .= variable_get('actablackout_title', 'No to ACTA!').'</a></p>';
+  $ret .= '<div id="actablackout-tsb-wall"><p>'.variable_get('actablackout_explain', '').'</p></div>';
+  $ret .= '<div id="actablackout-tsb-spot"></div>';
+  $ret .= '</div>';
+
+  $ret .= '<noscript><style type="text/css">';
+  $ret .= '#actablackout-tsb-spot {';
+  $ret .= 'background: -moz-radial-gradient(25% 25%, circle closest-side, transparent 0, black 350px);';
+  $ret .= '-webkit-gradient(radial, 25% 25%, 0, center center, 350, from(rgba(0,0,0,0)), to(rgba(0,0,0,1)))';
+  $ret .= '}</style></noscript>';
+
+  return $ret;
+}
+
+/**
+ * Implements hook_init().
+ */
+function actablackout_init() {
+  if ($_GET['q'] != 'actatest') {
+    $path = drupal_get_normal_path($_GET['q']);
+    if (substr($path, 0, 6) == 'admin' || $path == 'user') {
+      return;
+    }
+
+    if (!actablackout_blackout_active()) {
+      return;
+    }
+
+  }
+
+  drupal_add_js(drupal_get_path('module', 'actablackout') . '/assets/acta.js');
+  drupal_add_css(drupal_get_path('module', 'actablackout') . '/assets/acta.css');
+
+}
+
+/**
+ * returns TRUE if blackout is now active and FALSE otherwise.
+ */
+function actablackout_blackout_active() {
+  $date_start = variable_get('actablackout_date_start', NULL);
+  $date_end = variable_get('actablackout_date_end', NULL);
+
+  if (is_null($date_start) || is_null($date_end)) {
+    return FALSE;
+  }
+
+  $ds = strtotime($date_start);
+  $de = strtotime($date_end);
+
+  $now = time();
+
+  return $now > $ds && $now < $de;
+}

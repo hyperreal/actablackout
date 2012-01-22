@@ -1,0 +1,5 @@
+name = ACTA Blackout
+description = "ACTA SOPA PIPA blackout module."
+dependencies[] = date_api
+core = 6.x
+package = Other
