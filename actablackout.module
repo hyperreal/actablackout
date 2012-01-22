@@ -99,9 +99,12 @@ function actablackout_admin() {
  * Implements hook_footer().
  */
 function actablackout_footer($main = 0) {
+  global $base_url;
+
   if ($_GET['q'] != 'actatest') {
     $path = drupal_get_normal_path($_GET['q']);
-    if (substr($path, 0, 5) == 'admin' || $path == 'user'|| $_GET['q'] === variable_get('actablackout_link', array())) {
+    $link = variable_get('actablackout_link', array());
+    if (substr($path, 0, 5) == 'admin' || $path == 'user' || (!is_array($link) && $base_url.'/'.$_GET['q'] == $link)) {
       return;
     }
 
@@ -131,9 +134,12 @@ function actablackout_footer($main = 0) {
  * Implements hook_init().
  */
 function actablackout_init() {
+  global $base_url;
+
   if ($_GET['q'] != 'actatest') {
     $path = drupal_get_normal_path($_GET['q']);
-    if (substr($path, 0, 6) == 'admin' || $path == 'user' || $_GET['q'] === variable_get('actablackout_link', array())) {
+    $link = variable_get('actablackout_link', array());
+    if (substr($path, 0, 5) == 'admin' || $path == 'user' || (!is_array($link) && $base_url.'/'.$_GET['q'] == $link)) {
       return;
     }
 
