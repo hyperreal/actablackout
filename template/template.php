@@ -1,6 +1,11 @@
 <html>
   <head>
     <title><?php echo variable_get('actablackout_title', 'No to ACTA!'); ?></title>
+    <!--[if IE]>
+      #actablackout-text-shadow-box {
+        background-position-x: 20% !important;
+      }
+    <![endif]-->
     <style type="text/css">
 
 #actablackout-text-shadow-box {
